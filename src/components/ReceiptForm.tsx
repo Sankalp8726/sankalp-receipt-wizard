@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,15 @@ interface ReceiptFormProps {
   onBack: () => void;
 }
 
+// Get the current sequence from localStorage or start at 1
+const getNextReceiptSequence = (): number => {
+  const lastSequence = localStorage.getItem('lastReceiptSequence');
+  if (lastSequence) {
+    return parseInt(lastSequence) + 1;
+  }
+  return 1;
+};
+
 const ReceiptForm = ({ onBack }: ReceiptFormProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
@@ -35,6 +44,20 @@ const ReceiptForm = ({ onBack }: ReceiptFormProps) => {
     month: format(new Date(), "MMMM yyyy"),
   });
   const [showPreview, setShowPreview] = useState(false);
+  const [receiptNo, setReceiptNo] = useState("");
+
+  useEffect(() => {
+    // Generate receipt number when component mounts
+    const sequence = getNextReceiptSequence();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    
+    // Format: YEAR/MONTH/DAY/SEQUENCE
+    const newReceiptNo = `${year}/${month}/${day}/${String(sequence).padStart(4, "0")}`;
+    setReceiptNo(newReceiptNo);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,18 +92,12 @@ const ReceiptForm = ({ onBack }: ReceiptFormProps) => {
     e.preventDefault();
     
     if (validateForm()) {
+      // Save the current sequence to localStorage for next receipt
+      const sequence = getNextReceiptSequence();
+      localStorage.setItem('lastReceiptSequence', sequence.toString());
+      
       setShowPreview(true);
     }
-  };
-
-  const generateReceiptNo = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    // This would be replaced with a database sequence in a real application
-    const sequence = Math.floor(1000 + Math.random() * 9000);
-    
-    return `${year}/${month}/${sequence}`;
   };
 
   return (
@@ -202,7 +219,7 @@ const ReceiptForm = ({ onBack }: ReceiptFormProps) => {
       ) : (
         <Receipt
           formData={formData}
-          receiptNo={generateReceiptNo()}
+          receiptNo={receiptNo}
           onBack={() => setShowPreview(false)}
         />
       )}

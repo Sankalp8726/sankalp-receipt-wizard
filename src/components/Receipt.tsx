@@ -36,7 +36,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
 
     try {
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 2,
+        scale: 3, // Higher scale for better quality
         logging: false,
         useCORS: true,
         allowTaint: true,
@@ -44,7 +44,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       });
       
       // Get the image data from the canvas
-      const imgData = canvas.toDataURL("image/png");
+      const imgData = canvas.toDataURL("image/png", 1.0);
       
       // A4 size dimensions in mm (210 × 297 mm)
       const pdf = new jsPDF({
