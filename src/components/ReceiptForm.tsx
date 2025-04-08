@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -52,10 +51,9 @@ const ReceiptForm = ({ onBack }: ReceiptFormProps) => {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
     
-    // Format: YEAR/MONTH/DAY/SEQUENCE
-    const newReceiptNo = `${year}/${month}/${day}/${String(sequence).padStart(4, "0")}`;
+    // Format: YEAR/MONTH/SEQUENCE
+    const newReceiptNo = `${year}/${month}/${String(sequence).padStart(4, "0")}`;
     setReceiptNo(newReceiptNo);
   }, []);
 

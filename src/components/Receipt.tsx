@@ -108,8 +108,8 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             boxSizing: "border-box"
           }}
         >
-          {/* Watermark */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0">
+          {/* Watermark - Increased visibility to 100% */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-100 z-0">
             <img
               src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
               alt="Sankalp Library"
@@ -187,18 +187,13 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Notes */}
+            {/* Notes - Removed the library footer text that appears after the points */}
             <div className="border-t border-gray-300 pt-4 mb-8">
               <ul className="list-disc pl-5 text-sm text-gray-700">
                 <li>Keep the Receipt for future references</li>
                 <li>Fees once paid are non refundable</li>
                 <li>In case of any error contact Library desk</li>
               </ul>
-            </div>
-            
-            {/* Footer */}
-            <div className="text-right">
-              <p className="font-bold">SANKALP LIBRARY</p>
             </div>
           </div>
         </div>
