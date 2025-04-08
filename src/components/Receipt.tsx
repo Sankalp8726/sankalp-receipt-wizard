@@ -39,9 +39,14 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         scale: 2,
         logging: false,
         useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
       });
       
+      // Get the image data from the canvas
       const imgData = canvas.toDataURL("image/png");
+      
+      // A4 size dimensions in mm (210 × 297 mm)
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -49,8 +54,10 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       });
       
       const imgWidth = 210;
+      const pageHeight = 297;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
+      // Add image to PDF, adjusted to fit A4
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
@@ -94,7 +101,12 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         <div
           ref={receiptRef}
           className="relative bg-white p-8 font-serif"
-          style={{ minHeight: "800px" }}
+          style={{ 
+            width: "210mm",
+            minHeight: "297mm",
+            margin: "0 auto",
+            boxSizing: "border-box"
+          }}
         >
           {/* Watermark */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10 z-0">
