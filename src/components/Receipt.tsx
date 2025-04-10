@@ -108,7 +108,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             boxSizing: "border-box"
           }}
         >
-          {/* Watermark - Reduced opacity back to 15% for faded effect */}
+          {/* Watermark with reduced opacity */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 z-0">
             <img
               src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
@@ -118,21 +118,36 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
           </div>
           
           <div className="relative z-10">
-            {/* Header Section - Made more prominent */}
-            <div className="text-center border-b-2 border-gray-800 pb-4 mb-8">
+            {/* Header Section with gradient background */}
+            <div className="text-center pb-4 mb-8" style={{ 
+              background: "linear-gradient(to right, #e6f7ff, #ffffff, #e6f7ff)",
+              borderBottom: "2px solid #3182ce",
+              borderRadius: "4px 4px 0 0",
+              padding: "12px"
+            }}>
               <h1 className="text-3xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
               <p className="text-gray-700 mt-2">City complex, Near SBI Domchanch</p>
               <p className="text-gray-700">Giridih Road Domchanch 825418</p>
               <p className="text-gray-700">7544032365, 9572939681</p>
             </div>
             
-            {/* Receipt Title - More prominent */}
+            {/* Receipt Title with color */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold border-2 border-gray-800 inline-block px-6 py-2">RECEIPT</h2>
+              <h2 className="text-2xl font-bold px-6 py-2" style={{
+                background: "linear-gradient(135deg, #f0f9ff 0%, #cbebff 100%)",
+                border: "2px solid #3182ce",
+                color: "#2c5282",
+                display: "inline-block",
+                borderRadius: "4px"
+              }}>RECEIPT</h2>
             </div>
             
-            {/* Receipt Details - Better spacing */}
-            <div className="grid grid-cols-2 gap-4 mb-12">
+            {/* Receipt Details with colored background */}
+            <div className="grid grid-cols-2 gap-4 mb-12" style={{
+              background: "#f7fafc",
+              padding: "12px",
+              borderRadius: "4px"
+            }}>
               <div>
                 <p className="text-lg"><strong>Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
               </div>
@@ -141,54 +156,63 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Student Details - Better spacing and larger text */}
-            <div className="space-y-6 mb-12">
+            {/* Student Details with alternating row colors */}
+            <div className="space-y-6 mb-12" style={{
+              borderRadius: "4px",
+              overflow: "hidden"
+            }}>
               <div className="grid grid-cols-2 gap-6">
-                <p className="text-lg"><strong>Student Name:</strong> {formData.studentName}</p>
-                <p className="text-lg"><strong>Contact No:</strong> {formData.contactNo}</p>
+                <p className="text-lg p-2" style={{ background: "#edf2f7" }}><strong>Student Name:</strong> {formData.studentName}</p>
+                <p className="text-lg p-2" style={{ background: "#f7fafc" }}><strong>Contact No:</strong> {formData.contactNo}</p>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <p className="text-lg"><strong>Seat No:</strong> {formData.seatNo}</p>
-                <p className="text-lg"><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
+                <p className="text-lg p-2" style={{ background: "#f7fafc" }}><strong>Seat No:</strong> {formData.seatNo}</p>
+                <p className="text-lg p-2" style={{ background: "#edf2f7" }}><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
               </div>
             </div>
             
-            {/* Payment Info - More prominent and better styled box */}
-            <div className="border-2 border-gray-300 p-6 mb-16 rounded-md shadow-sm">
+            {/* Payment Info with gradient background */}
+            <div className="mb-16 rounded-md shadow-sm" style={{
+              border: "2px solid #cbd5e0",
+              borderRadius: "6px",
+              overflow: "hidden"
+            }}>
               <table className="w-full">
                 <thead>
-                  <tr className="border-b-2 border-gray-400">
-                    <th className="text-left py-3 text-lg">Description</th>
-                    <th className="text-right py-3 text-lg">Amount</th>
+                  <tr style={{ background: "linear-gradient(to right, #ebf4ff, #c3dafe)" }}>
+                    <th className="text-left py-3 text-lg px-4 text-blue-900">Description</th>
+                    <th className="text-right py-3 text-lg px-4 text-blue-900">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="py-4 text-lg">Fees Paid for {formData.month}</td>
-                    <td className="text-right py-4 text-lg">₹ {formData.feesPaid}</td>
+                  <tr style={{ background: "#f8fafc" }}>
+                    <td className="py-4 text-lg px-4">Fees Paid for {formData.month}</td>
+                    <td className="text-right py-4 text-lg px-4 font-medium text-green-700">₹ {formData.feesPaid}</td>
                   </tr>
-                  <tr className="border-t border-gray-300">
-                    <td className="py-4 text-lg"><strong>Remaining Dues</strong></td>
-                    <td className="text-right py-4 text-lg">₹ {formData.remainingDues}</td>
+                  <tr style={{ background: "#edf2f7" }}>
+                    <td className="py-4 text-lg px-4"><strong>Remaining Dues</strong></td>
+                    <td className="text-right py-4 text-lg px-4 font-bold text-red-700">₹ {formData.remainingDues}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             
-            {/* Signature - Using new signature image */}
+            {/* Signature */}
             <div className="flex justify-end mb-12">
               <div className="text-center">
                 <img
-                  src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
+                  src="/lovable-uploads/1f9caec6-7b30-47a2-bf30-1b00c63d55cd.png"
                   alt="Signature"
                   className="h-20 mb-2 mx-auto"
                 />
-                <p className="font-bold">SANKALP LIBRARY</p>
               </div>
             </div>
             
-            {/* Notes - Styled better */}
-            <div className="border-t border-gray-300 pt-6 mb-8">
+            {/* Notes with colored background */}
+            <div className="pt-6 mb-8" style={{
+              borderTop: "1px solid #cbd5e0",
+              background: "linear-gradient(to bottom, #f7fafc, #ffffff)"
+            }}>
               <ul className="list-disc pl-8 text-md text-gray-700 space-y-2">
                 <li>Keep the Receipt for future references</li>
                 <li>Fees once paid are non refundable</li>
