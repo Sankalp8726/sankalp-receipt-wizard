@@ -175,7 +175,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </table>
             </div>
             
-            {/* Signature - Using new signature image */}
+            {/* Signature - Using previously added signature image */}
             <div className="flex justify-end mb-12">
               <div className="text-center">
                 <img
