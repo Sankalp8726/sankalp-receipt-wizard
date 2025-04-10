@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
@@ -131,7 +130,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               <p className="text-gray-700">7544032365, 9572939681</p>
             </div>
             
-            {/* Receipt Title with color */}
+            {/* Receipt Title with color - KEEPING COLORED */}
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold px-6 py-2" style={{
                 background: "linear-gradient(135deg, #f0f9ff 0%, #cbebff 100%)",
@@ -142,12 +141,8 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               }}>RECEIPT</h2>
             </div>
             
-            {/* Receipt Details with colored background */}
-            <div className="grid grid-cols-2 gap-4 mb-12" style={{
-              background: "#f7fafc",
-              padding: "12px",
-              borderRadius: "4px"
-            }}>
+            {/* Receipt Details */}
+            <div className="grid grid-cols-2 gap-4 mb-12 bg-gray-50 p-3 rounded-md">
               <div>
                 <p className="text-lg"><strong>Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
               </div>
@@ -156,27 +151,20 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Student Details with alternating row colors */}
-            <div className="space-y-6 mb-12" style={{
-              borderRadius: "4px",
-              overflow: "hidden"
-            }}>
+            {/* Student Details */}
+            <div className="space-y-6 mb-12">
               <div className="grid grid-cols-2 gap-6">
-                <p className="text-lg p-2" style={{ background: "#edf2f7" }}><strong>Student Name:</strong> {formData.studentName}</p>
-                <p className="text-lg p-2" style={{ background: "#f7fafc" }}><strong>Contact No:</strong> {formData.contactNo}</p>
+                <p className="text-lg p-2 bg-gray-50"><strong>Student Name:</strong> {formData.studentName}</p>
+                <p className="text-lg p-2 bg-gray-50"><strong>Contact No:</strong> {formData.contactNo}</p>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <p className="text-lg p-2" style={{ background: "#f7fafc" }}><strong>Seat No:</strong> {formData.seatNo}</p>
-                <p className="text-lg p-2" style={{ background: "#edf2f7" }}><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
+                <p className="text-lg p-2 bg-gray-50"><strong>Seat No:</strong> {formData.seatNo}</p>
+                <p className="text-lg p-2 bg-gray-50"><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
               </div>
             </div>
             
-            {/* Payment Info with gradient background */}
-            <div className="mb-16 rounded-md shadow-sm" style={{
-              border: "2px solid #cbd5e0",
-              borderRadius: "6px",
-              overflow: "hidden"
-            }}>
+            {/* Payment Info - KEEPING COLORED for description only */}
+            <div className="mb-16 rounded-md shadow-sm border-2 border-gray-200">
               <table className="w-full">
                 <thead>
                   <tr style={{ background: "linear-gradient(to right, #ebf4ff, #c3dafe)" }}>
@@ -185,13 +173,13 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr style={{ background: "#f8fafc" }}>
+                  <tr className="bg-gray-50">
                     <td className="py-4 text-lg px-4">Fees Paid for {formData.month}</td>
-                    <td className="text-right py-4 text-lg px-4 font-medium text-green-700">₹ {formData.feesPaid}</td>
+                    <td className="text-right py-4 text-lg px-4">₹ {formData.feesPaid}</td>
                   </tr>
-                  <tr style={{ background: "#edf2f7" }}>
+                  <tr className="bg-white">
                     <td className="py-4 text-lg px-4"><strong>Remaining Dues</strong></td>
-                    <td className="text-right py-4 text-lg px-4 font-bold text-red-700">₹ {formData.remainingDues}</td>
+                    <td className="text-right py-4 text-lg px-4">₹ {formData.remainingDues}</td>
                   </tr>
                 </tbody>
               </table>
@@ -208,11 +196,8 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Notes with colored background */}
-            <div className="pt-6 mb-8" style={{
-              borderTop: "1px solid #cbd5e0",
-              background: "linear-gradient(to bottom, #f7fafc, #ffffff)"
-            }}>
+            {/* Notes */}
+            <div className="pt-6 mb-8 border-t border-gray-200">
               <ul className="list-disc pl-8 text-md text-gray-700 space-y-2">
                 <li>Keep the Receipt for future references</li>
                 <li>Fees once paid are non refundable</li>
