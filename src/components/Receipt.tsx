@@ -36,7 +36,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
 
     try {
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 3, // Higher scale for better quality
+        scale: 4, // Higher scale for better quality
         logging: false,
         useCORS: true,
         allowTaint: true,
@@ -108,88 +108,88 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             boxSizing: "border-box"
           }}
         >
-          {/* Watermark - Increased visibility to 100% */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-100 z-0">
+          {/* Watermark - Reduced opacity back to 15% for faded effect */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 z-0">
             <img
               src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
               alt="Sankalp Library"
-              className="w-2/3 max-w-md"
+              className="w-3/4 max-w-md"
             />
           </div>
           
           <div className="relative z-10">
-            {/* Header Section */}
-            <div className="text-center border-b-2 border-gray-800 pb-4 mb-6">
-              <h1 className="text-2xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
-              <p className="text-gray-700">City complex, Near SBI Domchanch</p>
+            {/* Header Section - Made more prominent */}
+            <div className="text-center border-b-2 border-gray-800 pb-4 mb-8">
+              <h1 className="text-3xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
+              <p className="text-gray-700 mt-2">City complex, Near SBI Domchanch</p>
               <p className="text-gray-700">Giridih Road Domchanch 825418</p>
               <p className="text-gray-700">7544032365, 9572939681</p>
             </div>
             
-            {/* Receipt Title */}
-            <div className="text-center mb-6">
-              <h2 className="text-xl font-bold border-2 border-gray-800 inline-block px-4 py-1">RECEIPT</h2>
+            {/* Receipt Title - More prominent */}
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold border-2 border-gray-800 inline-block px-6 py-2">RECEIPT</h2>
             </div>
             
-            {/* Receipt Details */}
-            <div className="grid grid-cols-2 gap-4 mb-10">
+            {/* Receipt Details - Better spacing */}
+            <div className="grid grid-cols-2 gap-4 mb-12">
               <div>
-                <p><strong>Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
+                <p className="text-lg"><strong>Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
               </div>
               <div className="text-right">
-                <p><strong>Receipt No:</strong> {receiptNo}</p>
+                <p className="text-lg"><strong>Receipt No:</strong> {receiptNo}</p>
               </div>
             </div>
             
-            {/* Student Details */}
-            <div className="space-y-4 mb-12">
-              <div className="grid grid-cols-2 gap-4">
-                <p><strong>Student Name:</strong> {formData.studentName}</p>
-                <p><strong>Contact No:</strong> {formData.contactNo}</p>
+            {/* Student Details - Better spacing and larger text */}
+            <div className="space-y-6 mb-12">
+              <div className="grid grid-cols-2 gap-6">
+                <p className="text-lg"><strong>Student Name:</strong> {formData.studentName}</p>
+                <p className="text-lg"><strong>Contact No:</strong> {formData.contactNo}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <p><strong>Seat No:</strong> {formData.seatNo}</p>
-                <p><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
+              <div className="grid grid-cols-2 gap-6">
+                <p className="text-lg"><strong>Seat No:</strong> {formData.seatNo}</p>
+                <p className="text-lg"><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
               </div>
             </div>
             
-            {/* Payment Info - Styled as a box */}
-            <div className="border-2 border-gray-300 p-4 mb-12">
+            {/* Payment Info - More prominent and better styled box */}
+            <div className="border-2 border-gray-300 p-6 mb-16 rounded-md shadow-sm">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-400">
-                    <th className="text-left py-2">Description</th>
-                    <th className="text-right py-2">Amount</th>
+                  <tr className="border-b-2 border-gray-400">
+                    <th className="text-left py-3 text-lg">Description</th>
+                    <th className="text-right py-3 text-lg">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="py-2">Fees Paid for {formData.month}</td>
-                    <td className="text-right py-2">₹ {formData.feesPaid}</td>
+                    <td className="py-4 text-lg">Fees Paid for {formData.month}</td>
+                    <td className="text-right py-4 text-lg">₹ {formData.feesPaid}</td>
                   </tr>
                   <tr className="border-t border-gray-300">
-                    <td className="py-2"><strong>Remaining Dues</strong></td>
-                    <td className="text-right py-2">₹ {formData.remainingDues}</td>
+                    <td className="py-4 text-lg"><strong>Remaining Dues</strong></td>
+                    <td className="text-right py-4 text-lg">₹ {formData.remainingDues}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             
-            {/* Signature */}
-            <div className="flex justify-end mb-8">
+            {/* Signature - Using new signature image */}
+            <div className="flex justify-end mb-12">
               <div className="text-center">
                 <img
-                  src="/lovable-uploads/1f9caec6-7b30-47a2-bf30-1b00c63d55cd.png"
+                  src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
                   alt="Signature"
-                  className="h-16 mb-2 mx-auto"
+                  className="h-20 mb-2 mx-auto"
                 />
                 <p className="font-bold">SANKALP LIBRARY</p>
               </div>
             </div>
             
-            {/* Notes - Removed the library footer text that appears after the points */}
-            <div className="border-t border-gray-300 pt-4 mb-8">
-              <ul className="list-disc pl-5 text-sm text-gray-700">
+            {/* Notes - Styled better */}
+            <div className="border-t border-gray-300 pt-6 mb-8">
+              <ul className="list-disc pl-8 text-md text-gray-700 space-y-2">
                 <li>Keep the Receipt for future references</li>
                 <li>Fees once paid are non refundable</li>
                 <li>In case of any error contact Library desk</li>
