@@ -35,9 +35,9 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     });
 
     try {
-      // Higher quality settings for better image
+      // Higher quality settings for better image resolution
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 2, // Higher scale for better quality
+        scale: 3, // Increased scale for higher resolution
         logging: false,
         useCORS: true,
         allowTaint: true,
@@ -45,7 +45,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       });
       
       // Higher quality image data
-      const imgData = canvas.toDataURL("image/jpeg", 0.95); // 95% quality JPEG
+      const imgData = canvas.toDataURL("image/jpeg", 1.0); // 100% quality JPEG
       
       // Create PDF with better quality settings
       const pdf = new jsPDF({
@@ -59,7 +59,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Center the image on the page
+      // Fix alignment by positioning the image precisely at the top
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
@@ -123,13 +123,13 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             height: "100%"
           }}>
             {/* Header Section with logo on left side */}
-            <div className="flex items-center pb-3 mb-4" style={{ 
+            <div className="flex items-center pb-3 mb-5" style={{ 
               background: "linear-gradient(to right, #e6f2ff, #ffffff)",
               borderBottom: "2px solid #1a55a3",
-              padding: "8px",
+              padding: "10px",
               borderRadius: "8px 8px 0 0"
             }}>
-              <div className="flex-shrink-0 mr-4" style={{ width: "70px" }}>
+              <div className="flex-shrink-0 mr-5" style={{ width: "90px" }}>
                 <img
                   src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
                   alt="Sankalp Library"
@@ -144,8 +144,8 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Receipt Title with better styling */}
-            <div className="text-center mb-4">
+            {/* Receipt Title with better spacing */}
+            <div className="text-center mb-5">
               <h2 className="text-xl font-bold px-5 py-1" style={{
                 background: "linear-gradient(to right, #f0f8ff, #e6f2ff)",
                 border: "2px solid #1a55a3",
@@ -156,7 +156,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Receipt Details with light background */}
-            <div className="grid grid-cols-2 gap-4 mb-4 p-2 rounded-md" style={{
+            <div className="grid grid-cols-2 gap-5 mb-5 p-3 rounded-md" style={{
               background: "linear-gradient(to right, #f8fbff, #ffffff)",
               border: "1px solid #e1e7f0",
               borderRadius: "6px"
@@ -169,25 +169,25 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Student Details with enhanced styling */}
-            <div className="space-y-2 mb-4 p-3 rounded-lg" style={{
+            {/* Student Details with enhanced styling and better spacing */}
+            <div className="space-y-3 mb-5 p-4 rounded-lg" style={{
               background: "linear-gradient(90deg, hsla(216, 41%, 79%, 0.3) 0%, hsla(186, 33%, 94%, 0.3) 100%)",
               border: "1px solid #e1e7f0",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}>
-              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-1 mb-2">Student Information</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-1 mb-3">Student Information</h3>
+              <div className="grid grid-cols-2 gap-4">
                 <p className="text-md"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
                 <p className="text-md"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <p className="text-md"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
                 <p className="text-md"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
               </div>
             </div>
             
-            {/* Payment Info with enhanced styling */}
-            <div className="p-3 mb-6 rounded-lg shadow-sm" style={{
+            {/* Payment Info with enhanced styling and spacing */}
+            <div className="p-4 mb-7 rounded-lg shadow-sm" style={{
               background: "linear-gradient(90deg, hsla(139, 70%, 75%, 0.2) 0%, hsla(63, 90%, 76%, 0.2) 100%)",
               border: "1px solid #d0def0",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
@@ -218,7 +218,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Signature - No background coloring */}
-            <div className="flex justify-end mb-4">
+            <div className="flex justify-end mb-5">
               <div className="text-center">
                 <img
                   src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
