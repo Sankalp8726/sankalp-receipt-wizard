@@ -35,22 +35,28 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     });
 
     try {
+      // Optimized settings for smaller file size
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 4, // Higher scale for better quality
+        scale: 2, // Reduced from 4 to 2 for smaller file size
         logging: false,
         useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff",
+        imageTimeout: 0, // Remove timeout
+        onclone: (document) => {
+          // Any pre-processing can be done here if needed
+        }
       });
       
-      // Get the image data from the canvas
-      const imgData = canvas.toDataURL("image/png", 1.0);
+      // Get the image data with reduced quality for smaller file size
+      const imgData = canvas.toDataURL("image/jpeg", 0.7); // Using JPEG with 70% quality instead of PNG
       
       // A4 size dimensions in mm (210 × 297 mm)
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
+        compress: true, // Enable compression
       });
       
       const imgWidth = 210;
@@ -58,7 +64,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
       // Add image to PDF, adjusted to fit A4
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
       pdf.save(fileName);
@@ -108,7 +114,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             boxSizing: "border-box"
           }}
         >
-          {/* Watermark - Reduced opacity back to 15% for faded effect */}
+          {/* Watermark - Making sure it remains visible */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 z-0">
             <img
               src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
@@ -118,81 +124,117 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
           </div>
           
           <div className="relative z-10">
-            {/* Header Section - Made more prominent */}
-            <div className="text-center border-b-2 border-gray-800 pb-4 mb-8">
+            {/* Header Section with gradient background */}
+            <div className="text-center pb-4 mb-8 rounded-lg" style={{ 
+              background: "linear-gradient(to right, #e6f2ff, #ffffff)",
+              borderBottom: "2px solid #1a55a3",
+              padding: "12px"
+            }}>
               <h1 className="text-3xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
               <p className="text-gray-700 mt-2">City complex, Near SBI Domchanch</p>
               <p className="text-gray-700">Giridih Road Domchanch 825418</p>
               <p className="text-gray-700">7544032365, 9572939681</p>
             </div>
             
-            {/* Receipt Title - More prominent */}
+            {/* Receipt Title with better styling */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold border-2 border-gray-800 inline-block px-6 py-2">RECEIPT</h2>
+              <h2 className="text-2xl font-bold px-6 py-2" style={{
+                background: "linear-gradient(to right, #f0f8ff, #e6f2ff)",
+                border: "2px solid #1a55a3",
+                display: "inline-block",
+                borderRadius: "8px",
+                color: "#1a55a3"
+              }}>RECEIPT</h2>
             </div>
             
-            {/* Receipt Details - Better spacing */}
-            <div className="grid grid-cols-2 gap-4 mb-12">
+            {/* Receipt Details with light background */}
+            <div className="grid grid-cols-2 gap-4 mb-12 p-3 rounded-md" style={{
+              background: "linear-gradient(to right, #f8fbff, #ffffff)"
+            }}>
               <div>
-                <p className="text-lg"><strong>Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
+                <p className="text-lg"><strong className="text-blue-700">Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
               </div>
               <div className="text-right">
-                <p className="text-lg"><strong>Receipt No:</strong> {receiptNo}</p>
+                <p className="text-lg"><strong className="text-blue-700">Receipt No:</strong> {receiptNo}</p>
               </div>
             </div>
             
-            {/* Student Details - Better spacing and larger text */}
-            <div className="space-y-6 mb-12">
+            {/* Student Details with enhanced styling */}
+            <div className="space-y-6 mb-12 p-4 rounded-lg" style={{
+              background: "linear-gradient(to right, #f0f4fa, #ffffff)",
+              border: "1px solid #e1e7f0"
+            }}>
+              <h3 className="text-xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Student Information</h3>
               <div className="grid grid-cols-2 gap-6">
-                <p className="text-lg"><strong>Student Name:</strong> {formData.studentName}</p>
-                <p className="text-lg"><strong>Contact No:</strong> {formData.contactNo}</p>
+                <p className="text-lg"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
+                <p className="text-lg"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <p className="text-lg"><strong>Seat No:</strong> {formData.seatNo}</p>
-                <p className="text-lg"><strong>Hours Opted:</strong> {formData.hoursOpted}</p>
+                <p className="text-lg"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
+                <p className="text-lg"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
               </div>
             </div>
             
-            {/* Payment Info - More prominent and better styled box */}
-            <div className="border-2 border-gray-300 p-6 mb-16 rounded-md shadow-sm">
+            {/* Payment Info with enhanced styling */}
+            <div className="p-6 mb-16 rounded-lg shadow-sm" style={{
+              background: "linear-gradient(to bottom, #f7faff, #ffffff)",
+              border: "2px solid #d0def0"
+            }}>
+              <h3 className="text-xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Payment Details</h3>
               <table className="w-full">
                 <thead>
-                  <tr className="border-b-2 border-gray-400">
-                    <th className="text-left py-3 text-lg">Description</th>
-                    <th className="text-right py-3 text-lg">Amount</th>
+                  <tr className="border-b-2 border-blue-200">
+                    <th className="text-left py-3 text-lg text-blue-700">Description</th>
+                    <th className="text-right py-3 text-lg text-blue-700">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="py-4 text-lg">Fees Paid for {formData.month}</td>
-                    <td className="text-right py-4 text-lg">₹ {formData.feesPaid}</td>
+                    <td className="py-4 text-lg" style={{ color: "#333333" }}>
+                      <div>
+                        <span className="font-medium">Fees Paid for {formData.month}</span>
+                        <p className="text-sm text-gray-600 mt-1">
+                          The payment covers study hours, seat reservation, and access to all library resources
+                          for the period mentioned above.
+                        </p>
+                      </div>
+                    </td>
+                    <td className="text-right py-4 text-lg font-medium" style={{ color: "#1a55a3" }}>₹ {formData.feesPaid}</td>
                   </tr>
-                  <tr className="border-t border-gray-300">
-                    <td className="py-4 text-lg"><strong>Remaining Dues</strong></td>
-                    <td className="text-right py-4 text-lg">₹ {formData.remainingDues}</td>
+                  <tr className="border-t border-blue-100">
+                    <td className="py-4 text-lg font-semibold text-blue-800">Remaining Dues</td>
+                    <td className="text-right py-4 text-lg font-semibold" style={{ color: formData.remainingDues === "0" ? "#10b981" : "#ef4444" }}>
+                      ₹ {formData.remainingDues}
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
             
-            {/* Signature - Using previously added signature image */}
+            {/* Signature - With subtle background */}
             <div className="flex justify-end mb-12">
-              <div className="text-center">
+              <div className="text-center p-2 rounded-md" style={{
+                background: "linear-gradient(to bottom, #f8fbff, #ffffff)"
+              }}>
                 <img
                   src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
                   alt="Signature"
                   className="h-20 mb-2 mx-auto"
                 />
-                <p className="font-bold">SANKALP LIBRARY</p>
+                <p className="font-bold text-blue-800">SANKALP LIBRARY</p>
               </div>
             </div>
             
-            {/* Notes - Styled better */}
-            <div className="border-t border-gray-300 pt-6 mb-8">
-              <ul className="list-disc pl-8 text-md text-gray-700 space-y-2">
-                <li>Keep the Receipt for future references</li>
-                <li>Fees once paid are non refundable</li>
-                <li>In case of any error contact Library desk</li>
+            {/* Notes - With enhanced styling */}
+            <div className="pt-6 mb-8 rounded-lg p-4" style={{
+              background: "linear-gradient(to right, #f0f8ff, #ffffff)",
+              borderTop: "1px solid #d0def0"
+            }}>
+              <h4 className="font-semibold text-blue-800 mb-3">Important Notes:</h4>
+              <ul className="list-disc pl-8 space-y-2">
+                <li className="text-md text-gray-700">Keep the Receipt for future references</li>
+                <li className="text-md text-gray-700">Fees once paid are non refundable</li>
+                <li className="text-md text-gray-700">In case of any error contact Library desk</li>
               </ul>
             </div>
           </div>
