@@ -35,33 +35,32 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     });
 
     try {
-      // Optimized settings for smaller file size
+      // Higher quality settings for better image
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 1.2, // Further reduced scale for smaller file size
+        scale: 2, // Higher scale for better quality
         logging: false,
         useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff",
       });
       
-      // Get the image data with reduced quality for smaller file size
-      const imgData = canvas.toDataURL("image/jpeg", 0.5); // Using JPEG with 50% quality
+      // Higher quality image data
+      const imgData = canvas.toDataURL("image/jpeg", 0.95); // 95% quality JPEG
       
-      // Create PDF with compression
+      // Create PDF with better quality settings
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
-        compress: true, // Enable compression
+        compress: true,
       });
       
       const imgWidth = 210; // A4 width in mm
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Add image to PDF, positioned to center vertically
-      const yPosition = Math.max(0, (pageHeight - Math.min(imgHeight, pageHeight)) / 2);
-      pdf.addImage(imgData, "JPEG", 0, yPosition, imgWidth, Math.min(imgHeight, pageHeight));
+      // Center the image on the page
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
       pdf.save(fileName);
@@ -106,11 +105,9 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
           className="relative bg-white"
           style={{ 
             width: "210mm",
-            minHeight: "290mm", // Slightly less than A4 to ensure better fitting
-            maxHeight: "297mm",
+            height: "297mm", // Full A4 size
             margin: "0 auto",
             boxSizing: "border-box",
-            overflow: "hidden", // Prevent content overflow
             backgroundImage: "linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
