@@ -37,21 +37,17 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     try {
       // Optimized settings for smaller file size
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 2, // Reduced from 4 to 2 for smaller file size
+        scale: 1.5, // Reduced scale for smaller file size while maintaining quality
         logging: false,
         useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff",
-        imageTimeout: 0, // Remove timeout
-        onclone: (document) => {
-          // Any pre-processing can be done here if needed
-        }
       });
       
       // Get the image data with reduced quality for smaller file size
-      const imgData = canvas.toDataURL("image/jpeg", 0.7); // Using JPEG with 70% quality instead of PNG
+      const imgData = canvas.toDataURL("image/jpeg", 0.6); // Using JPEG with 60% quality
       
-      // A4 size dimensions in mm (210 × 297 mm)
+      // Create PDF with compression
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -59,12 +55,12 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         compress: true, // Enable compression
       });
       
-      const imgWidth = 210;
-      const pageHeight = 297;
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Add image to PDF, adjusted to fit A4
-      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+      // Add image to PDF, scaled properly to fit A4
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, Math.min(imgHeight, pageHeight));
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
       pdf.save(fileName);
@@ -103,19 +99,23 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         </Button>
       </div>
       
-      <Card className="p-8 shadow-lg bg-white">
+      <Card className="p-6 shadow-lg bg-white">
         <div
           ref={receiptRef}
-          className="relative bg-white p-8 font-serif"
+          className="relative bg-white p-6"
           style={{ 
             width: "210mm",
-            minHeight: "297mm",
+            height: "297mm", // Fixed height to exactly match A4
             margin: "0 auto",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            overflow: "hidden" // Prevent content overflow
           }}
         >
-          {/* Watermark - Making sure it remains visible */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-15 z-0">
+          {/* Watermark - Moved forward with reduced opacity and z-index control */}
+          <div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10"
+            style={{ zIndex: 5 }} // Higher z-index to ensure visibility
+          >
             <img
               src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
               alt="Sankalp Library"
@@ -123,21 +123,21 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             />
           </div>
           
-          <div className="relative z-10">
+          <div className="relative" style={{ zIndex: 10 }}>
             {/* Header Section with gradient background */}
-            <div className="text-center pb-4 mb-8 rounded-lg" style={{ 
+            <div className="text-center pb-4 mb-6 rounded-lg" style={{ 
               background: "linear-gradient(to right, #e6f2ff, #ffffff)",
               borderBottom: "2px solid #1a55a3",
-              padding: "12px"
+              padding: "10px"
             }}>
               <h1 className="text-3xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
-              <p className="text-gray-700 mt-2">City complex, Near SBI Domchanch</p>
+              <p className="text-gray-700 mt-1">City complex, Near SBI Domchanch</p>
               <p className="text-gray-700">Giridih Road Domchanch 825418</p>
               <p className="text-gray-700">7544032365, 9572939681</p>
             </div>
             
             {/* Receipt Title with better styling */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-6">
               <h2 className="text-2xl font-bold px-6 py-2" style={{
                 background: "linear-gradient(to right, #f0f8ff, #e6f2ff)",
                 border: "2px solid #1a55a3",
@@ -148,7 +148,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Receipt Details with light background */}
-            <div className="grid grid-cols-2 gap-4 mb-12 p-3 rounded-md" style={{
+            <div className="grid grid-cols-2 gap-4 mb-8 p-3 rounded-md" style={{
               background: "linear-gradient(to right, #f8fbff, #ffffff)"
             }}>
               <div>
@@ -160,23 +160,23 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Student Details with enhanced styling */}
-            <div className="space-y-6 mb-12 p-4 rounded-lg" style={{
+            <div className="space-y-4 mb-8 p-4 rounded-lg" style={{
               background: "linear-gradient(to right, #f0f4fa, #ffffff)",
               border: "1px solid #e1e7f0"
             }}>
-              <h3 className="text-xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Student Information</h3>
-              <div className="grid grid-cols-2 gap-6">
+              <h3 className="text-xl font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-3">Student Information</h3>
+              <div className="grid grid-cols-2 gap-4">
                 <p className="text-lg"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
                 <p className="text-lg"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
               </div>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-4">
                 <p className="text-lg"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
                 <p className="text-lg"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
               </div>
             </div>
             
-            {/* Payment Info with enhanced styling */}
-            <div className="p-6 mb-16 rounded-lg shadow-sm" style={{
+            {/* Payment Info with enhanced styling - Removed extra text */}
+            <div className="p-5 mb-10 rounded-lg shadow-sm" style={{
               background: "linear-gradient(to bottom, #f7faff, #ffffff)",
               border: "2px solid #d0def0"
             }}>
@@ -191,13 +191,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
                 <tbody>
                   <tr>
                     <td className="py-4 text-lg" style={{ color: "#333333" }}>
-                      <div>
-                        <span className="font-medium">Fees Paid for {formData.month}</span>
-                        <p className="text-sm text-gray-600 mt-1">
-                          The payment covers study hours, seat reservation, and access to all library resources
-                          for the period mentioned above.
-                        </p>
-                      </div>
+                      <span className="font-medium">Fees Paid for {formData.month}</span>
                     </td>
                     <td className="text-right py-4 text-lg font-medium" style={{ color: "#1a55a3" }}>₹ {formData.feesPaid}</td>
                   </tr>
@@ -211,11 +205,9 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </table>
             </div>
             
-            {/* Signature - With subtle background */}
-            <div className="flex justify-end mb-12">
-              <div className="text-center p-2 rounded-md" style={{
-                background: "linear-gradient(to bottom, #f8fbff, #ffffff)"
-              }}>
+            {/* Signature - No background coloring */}
+            <div className="flex justify-end mb-10">
+              <div className="text-center p-2">
                 <img
                   src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
                   alt="Signature"
@@ -226,7 +218,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Notes - With enhanced styling */}
-            <div className="pt-6 mb-8 rounded-lg p-4" style={{
+            <div className="pt-4 mb-6 rounded-lg p-4" style={{
               background: "linear-gradient(to right, #f0f8ff, #ffffff)",
               borderTop: "1px solid #d0def0"
             }}>
