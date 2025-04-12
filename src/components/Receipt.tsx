@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
@@ -35,30 +34,26 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     });
 
     try {
-      // Make sure we capture exactly what's shown in the preview
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 4, // High quality but not too high to avoid memory issues
+        scale: 4,
         logging: false,
         useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff"
       });
       
-      // Get high quality image data
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
       
-      // Create PDF with A4 dimensions
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
       });
       
-      const imgWidth = 210; // A4 width in mm
-      const pageHeight = 297; // A4 height in mm
+      const imgWidth = 210;
+      const pageHeight = 297;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Position the image at the top of the page with no offset
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
@@ -104,7 +99,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
           className="relative bg-white"
           style={{ 
             width: "210mm",
-            height: "297mm", // Full A4 size
+            height: "297mm", 
             margin: "0 auto",
             boxSizing: "border-box",
             backgroundImage: "linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)",
@@ -121,14 +116,13 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
             height: "100%"
           }}>
-            {/* Header Section with bigger logo on left side */}
             <div className="flex items-center pb-4 mb-6" style={{ 
               background: "linear-gradient(to right, #e6f2ff, #ffffff)",
               borderBottom: "2px solid #1a55a3",
               padding: "15px",
               borderRadius: "8px 8px 0 0"
             }}>
-              <div className="flex-shrink-0 mr-6" style={{ width: "200px" }}> {/* Increased logo width */}
+              <div className="flex-shrink-0 mr-6" style={{ width: "120px" }}>
                 <img
                   src="/lovable-uploads/a8403452-0245-4847-a0f4-02e0be47efdc.png"
                   alt="Sankalp Library"
@@ -144,7 +138,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Receipt Title with blue gradient */}
             <div className="text-center mb-6">
               <h2 className="text-xl font-bold px-8 py-3" style={{
                 background: "linear-gradient(to right, #0EA5E9, #2563EB)",
@@ -154,7 +147,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               }}>RECEIPT</h2>
             </div>
             
-            {/* Receipt Details with consistent gradient */}
             <div className="grid grid-cols-2 gap-6 mb-8 p-5 rounded-md" style={{
               background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #e1e7f0",
@@ -168,7 +160,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Student Details with blue gradient styling */}
             <div className="space-y-4 mb-8 p-6 rounded-lg" style={{
               background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #e1e7f0",
@@ -185,7 +176,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Payment Info with blue gradient styling */}
             <div className="p-6 mb-10 rounded-lg shadow-sm" style={{
               background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #d0def0",
@@ -216,7 +206,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </table>
             </div>
             
-            {/* Signature with more spacing */}
             <div className="flex justify-end mb-10">
               <div className="text-center">
                 <img
@@ -228,7 +217,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Notes - Without gradient, plain white background */}
             <div className="pt-5 mb-4 rounded-lg p-5" style={{
               background: "#ffffff",
               borderTop: "1px solid #d0def0",
