@@ -37,7 +37,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     try {
       // Higher quality settings for better image resolution
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 3, // Increased scale for higher resolution
+        scale: 4, // Increased scale for higher resolution
         logging: false,
         useCORS: true,
         allowTaint: true,
@@ -59,8 +59,8 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Fix alignment by positioning the image precisely at the top
-      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+      // Center the image properly on the page
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST');
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
       pdf.save(fileName);
@@ -108,7 +108,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             height: "297mm", // Full A4 size
             margin: "0 auto",
             boxSizing: "border-box",
-            backgroundImage: "linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)",
+            backgroundImage: "linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             padding: "5mm",
@@ -117,7 +117,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         >
           <div className="relative" style={{ 
             backgroundColor: "#ffffff", 
-            padding: "10px", 
+            padding: "15px", 
             borderRadius: "8px",
             boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
             height: "100%"
@@ -129,9 +129,9 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               padding: "10px",
               borderRadius: "8px 8px 0 0"
             }}>
-              <div className="flex-shrink-0 mr-5" style={{ width: "90px" }}>
+              <div className="flex-shrink-0 mr-5" style={{ width: "120px" }}>
                 <img
-                  src="/lovable-uploads/10c66dd0-997e-49cc-b00d-7a550af97b47.png"
+                  src="/lovable-uploads/a8403452-0245-4847-a0f4-02e0be47efdc.png"
                   alt="Sankalp Library"
                   className="w-full object-contain"
                 />
@@ -146,18 +146,17 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             
             {/* Receipt Title with better spacing */}
             <div className="text-center mb-5">
-              <h2 className="text-xl font-bold px-5 py-1" style={{
-                background: "linear-gradient(to right, #f0f8ff, #e6f2ff)",
-                border: "2px solid #1a55a3",
+              <h2 className="text-xl font-bold px-6 py-2" style={{
+                background: "linear-gradient(to right, #0EA5E9, #2563EB)",
                 display: "inline-block",
                 borderRadius: "8px",
-                color: "#1a55a3"
+                color: "white"
               }}>RECEIPT</h2>
             </div>
             
-            {/* Receipt Details with light background */}
-            <div className="grid grid-cols-2 gap-5 mb-5 p-3 rounded-md" style={{
-              background: "linear-gradient(to right, #f8fbff, #ffffff)",
+            {/* Receipt Details with consistent gradient */}
+            <div className="grid grid-cols-2 gap-5 mb-6 p-4 rounded-md" style={{
+              background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #e1e7f0",
               borderRadius: "6px"
             }}>
@@ -170,29 +169,29 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Student Details with enhanced styling and better spacing */}
-            <div className="space-y-3 mb-5 p-4 rounded-lg" style={{
-              background: "linear-gradient(90deg, hsla(216, 41%, 79%, 0.3) 0%, hsla(186, 33%, 94%, 0.3) 100%)",
+            <div className="space-y-3 mb-6 p-5 rounded-lg" style={{
+              background: "linear-gradient(90deg, hsla(221, 45%, 93%, 1) 0%, hsla(220, 78%, 95%, 1) 100%)",
               border: "1px solid #e1e7f0",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}>
-              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-1 mb-3">Student Information</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Student Information</h3>
+              <div className="grid grid-cols-2 gap-5">
                 <p className="text-md"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
                 <p className="text-md"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-5">
                 <p className="text-md"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
                 <p className="text-md"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
               </div>
             </div>
             
             {/* Payment Info with enhanced styling and spacing */}
-            <div className="p-4 mb-7 rounded-lg shadow-sm" style={{
-              background: "linear-gradient(90deg, hsla(139, 70%, 75%, 0.2) 0%, hsla(63, 90%, 76%, 0.2) 100%)",
+            <div className="p-5 mb-8 rounded-lg shadow-sm" style={{
+              background: "linear-gradient(90deg, hsla(221, 45%, 93%, 1) 0%, hsla(220, 78%, 95%, 1) 100%)",
               border: "1px solid #d0def0",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
             }}>
-              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-1 mb-3">Payment Details</h3>
+              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Payment Details</h3>
               <table className="w-full">
                 <thead>
                   <tr className="border-b-2 border-blue-200">
@@ -202,14 +201,14 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="py-3 text-md" style={{ color: "#333333" }}>
+                    <td className="py-4 text-md" style={{ color: "#333333" }}>
                       <span className="font-medium">Fees Paid for {formData.month}</span>
                     </td>
-                    <td className="text-right py-3 text-md font-medium" style={{ color: "#1a55a3" }}>₹ {formData.feesPaid}</td>
+                    <td className="text-right py-4 text-md font-medium" style={{ color: "#1a55a3" }}>₹ {formData.feesPaid}</td>
                   </tr>
                   <tr className="border-t border-blue-100">
-                    <td className="py-3 text-md font-semibold text-blue-800">Remaining Dues</td>
-                    <td className="text-right py-3 text-md font-semibold" style={{ color: formData.remainingDues === "0" ? "#10b981" : "#ef4444" }}>
+                    <td className="py-4 text-md font-semibold text-blue-800">Remaining Dues</td>
+                    <td className="text-right py-4 text-md font-semibold" style={{ color: formData.remainingDues === "0" ? "#10b981" : "#ef4444" }}>
                       ₹ {formData.remainingDues}
                     </td>
                   </tr>
@@ -217,8 +216,8 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </table>
             </div>
             
-            {/* Signature - No background coloring */}
-            <div className="flex justify-end mb-5">
+            {/* Signature */}
+            <div className="flex justify-end mb-6">
               <div className="text-center">
                 <img
                   src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
@@ -230,28 +229,18 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Notes - With enhanced styling */}
-            <div className="pt-2 mb-4 rounded-lg p-3" style={{
-              background: "linear-gradient(to right, #f0f8ff, #ffffff)",
+            <div className="pt-3 mb-4 rounded-lg p-4" style={{
+              background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               borderTop: "1px solid #d0def0",
               borderRadius: "0 0 8px 8px"
             }}>
-              <h4 className="font-semibold text-blue-800 mb-2">Important Notes:</h4>
-              <ul className="list-disc pl-6 space-y-1">
+              <h4 className="font-semibold text-blue-800 mb-3">Important Notes:</h4>
+              <ul className="list-disc pl-6 space-y-2">
                 <li className="text-sm text-gray-700">Keep the Receipt for future references</li>
                 <li className="text-sm text-gray-700">Fees once paid are non refundable</li>
                 <li className="text-sm text-gray-700">In case of any error contact Library desk</li>
               </ul>
             </div>
-            
-            {/* Paper texture overlay */}
-            <div 
-              className="absolute inset-0 pointer-events-none opacity-10" 
-              style={{ 
-                backgroundImage: "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAMa0lEQVR4nO1dbVczNw69JCEvBJInEEIgEIb//6+6t3QKCYTgJCRkE0jw0g/SarU6luTx7M7QmfPh7M5Y1rEsWZZlTf/617++dV1X4f9HOGqaJvzcNE3N7+wU59fi7xXyav+n6fttntc0XDdw3XEzNmDc8ryu3/FznDc commentRedacted",
-                mixBlendMode: "multiply",
-                zIndex: 5
-              }}
-            />
           </div>
         </div>
       </Card>
