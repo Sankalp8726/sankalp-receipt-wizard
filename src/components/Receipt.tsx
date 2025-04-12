@@ -35,36 +35,31 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
     });
 
     try {
-      // Higher quality settings for better image resolution
+      // Make sure we capture exactly what's shown in the preview
       const canvas = await html2canvas(receiptRef.current, {
-        scale: 5, // Increased scale for even higher resolution
+        scale: 4, // High quality but not too high to avoid memory issues
         logging: false,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: "#ffffff",
-        // This helps maintain positioning
-        scrollY: -window.scrollY,
-        windowWidth: document.documentElement.offsetWidth,
-        windowHeight: document.documentElement.offsetHeight
+        backgroundColor: "#ffffff"
       });
       
-      // Higher quality image data
-      const imgData = canvas.toDataURL("image/jpeg", 1.0); // 100% quality JPEG
+      // Get high quality image data
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
       
       // Create PDF with A4 dimensions
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
-        compress: false, // Disable compression for better quality
       });
       
       const imgWidth = 210; // A4 width in mm
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      // Position the image at the top of the page (0,0 coordinates)
-      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+      // Position the image at the top of the page with no offset
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
       
       const fileName = `${formData.studentName.replace(/\s+/g, "_")}_${formData.seatNo}_${formData.month.replace(/\s+/g, "_")}.pdf`;
       pdf.save(fileName);
@@ -126,18 +121,19 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
             height: "100%"
           }}>
-            {/* Header Section with logo on left side - Made logo even bigger */}
+            {/* Header Section with bigger logo on left side */}
             <div className="flex items-center pb-4 mb-6" style={{ 
               background: "linear-gradient(to right, #e6f2ff, #ffffff)",
               borderBottom: "2px solid #1a55a3",
               padding: "15px",
               borderRadius: "8px 8px 0 0"
             }}>
-              <div className="flex-shrink-0 mr-6" style={{ width: "180px" }}> {/* Increased width for bigger logo */}
+              <div className="flex-shrink-0 mr-6" style={{ width: "200px" }}> {/* Increased logo width */}
                 <img
                   src="/lovable-uploads/a8403452-0245-4847-a0f4-02e0be47efdc.png"
                   alt="Sankalp Library"
                   className="w-full object-contain"
+                  style={{ maxHeight: "auto" }}
                 />
               </div>
               <div className="text-center flex-grow">
@@ -172,7 +168,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </div>
             </div>
             
-            {/* Student Details with blue gradient styling and increased spacing */}
+            {/* Student Details with blue gradient styling */}
             <div className="space-y-4 mb-8 p-6 rounded-lg" style={{
               background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #e1e7f0",
@@ -183,13 +179,13 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
                 <p className="text-lg"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
                 <p className="text-lg"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
               </div>
-              <div className="grid grid-cols-2 gap-6 mt-5"> {/* Added more spacing between rows */}
+              <div className="grid grid-cols-2 gap-6 mt-5">
                 <p className="text-lg"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
                 <p className="text-lg"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
               </div>
             </div>
             
-            {/* Payment Info with blue gradient styling and increased spacing */}
+            {/* Payment Info with blue gradient styling */}
             <div className="p-6 mb-10 rounded-lg shadow-sm" style={{
               background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #d0def0",
@@ -221,20 +217,20 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
             </div>
             
             {/* Signature with more spacing */}
-            <div className="flex justify-end mb-10"> {/* Increased bottom margin */}
+            <div className="flex justify-end mb-10">
               <div className="text-center">
                 <img
                   src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
                   alt="Signature"
-                  className="h-20 mb-3 mx-auto" /* Increased size and margin below signature */
+                  className="h-20 mb-3 mx-auto"
                 />
                 <p className="font-bold text-blue-800 text-lg">SANKALP LIBRARY</p>
               </div>
             </div>
             
-            {/* Notes - With blue gradient styling */}
+            {/* Notes - Without gradient, plain white background */}
             <div className="pt-5 mb-4 rounded-lg p-5" style={{
-              background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
+              background: "#ffffff",
               borderTop: "1px solid #d0def0",
               borderRadius: "0 0 8px 8px"
             }}>
