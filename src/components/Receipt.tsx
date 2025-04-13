@@ -117,19 +117,19 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         >
           <div className="relative" style={{ 
             backgroundColor: "#ffffff", 
-            padding: "15px", 
+            padding: "10px", 
             borderRadius: "8px",
             boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
             height: "100%"
           }}>
-            {/* Header Section with logo on left side */}
-            <div className="flex items-center pb-3 mb-5" style={{ 
+            {/* Header Section with logo on left side - more compact */}
+            <div className="flex items-center pb-2 mb-3" style={{ 
               background: "linear-gradient(to right, #e6f2ff, #ffffff)",
               borderBottom: "2px solid #1a55a3",
-              padding: "10px",
+              padding: "8px",
               borderRadius: "8px 8px 0 0"
             }}>
-              <div className="flex-shrink-0 mr-5" style={{ width: "120px" }}>
+              <div className="flex-shrink-0 mr-3" style={{ width: "120px" }}>
                 <img
                   src="/lovable-uploads/a8403452-0245-4847-a0f4-02e0be47efdc.png"
                   alt="Sankalp Library"
@@ -137,78 +137,78 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
                 />
               </div>
               <div className="text-center flex-grow">
-                <h1 className="text-2xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
-                <p className="text-gray-700 text-sm">City complex, Near SBI Domchanch</p>
-                <p className="text-gray-700 text-sm">Giridih Road Domchanch 825418</p>
-                <p className="text-gray-700 text-sm">7544032365, 9572939681</p>
+                <h1 className="text-xl font-bold text-blue-800">SANKALP LIBRARY DOMCHANCH</h1>
+                <p className="text-gray-700 text-xs">City complex, Near SBI Domchanch</p>
+                <p className="text-gray-700 text-xs">Giridih Road Domchanch 825418</p>
+                <p className="text-gray-700 text-xs">7544032365, 9572939681</p>
               </div>
             </div>
             
-            {/* Receipt Title with better spacing */}
-            <div className="text-center mb-5">
-              <h2 className="text-xl font-bold px-6 py-2" style={{
+            {/* Receipt Title - more compact */}
+            <div className="text-center mb-3">
+              <h2 className="text-lg font-bold px-4 py-1" style={{
                 background: "linear-gradient(to right, #0EA5E9, #2563EB)",
                 display: "inline-block",
-                borderRadius: "8px",
+                borderRadius: "6px",
                 color: "white"
               }}>RECEIPT</h2>
             </div>
             
-            {/* Receipt Details with consistent gradient */}
-            <div className="grid grid-cols-2 gap-5 mb-6 p-4 rounded-md" style={{
+            {/* Receipt Details - more compact */}
+            <div className="grid grid-cols-2 gap-3 mb-3 p-2 rounded-md" style={{
               background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
               border: "1px solid #e1e7f0",
               borderRadius: "6px"
             }}>
               <div>
-                <p className="text-md"><strong className="text-blue-700">Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
+                <p className="text-sm"><strong className="text-blue-700">Date:</strong> {format(new Date(), "dd/MM/yyyy")}</p>
               </div>
               <div className="text-right">
-                <p className="text-md"><strong className="text-blue-700">Receipt No:</strong> {receiptNo}</p>
+                <p className="text-sm"><strong className="text-blue-700">Receipt No:</strong> {receiptNo}</p>
               </div>
             </div>
             
-            {/* Student Details with enhanced styling and better spacing */}
-            <div className="space-y-3 mb-6 p-5 rounded-lg" style={{
+            {/* Student Details - more compact */}
+            <div className="space-y-2 mb-3 p-3 rounded-lg" style={{
               background: "linear-gradient(90deg, hsla(221, 45%, 93%, 1) 0%, hsla(220, 78%, 95%, 1) 100%)",
               border: "1px solid #e1e7f0",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
             }}>
-              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Student Information</h3>
-              <div className="grid grid-cols-2 gap-5">
-                <p className="text-md"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
-                <p className="text-md"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
+              <h3 className="text-base font-semibold text-blue-800 border-b border-blue-200 pb-1 mb-2">Student Information</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <p className="text-sm"><strong className="text-blue-700">Student Name:</strong> <span className="text-gray-800">{formData.studentName}</span></p>
+                <p className="text-sm"><strong className="text-blue-700">Contact No:</strong> <span className="text-gray-800">{formData.contactNo}</span></p>
               </div>
-              <div className="grid grid-cols-2 gap-5">
-                <p className="text-md"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
-                <p className="text-md"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
+              <div className="grid grid-cols-2 gap-3">
+                <p className="text-sm"><strong className="text-blue-700">Seat No:</strong> <span className="text-gray-800">{formData.seatNo}</span></p>
+                <p className="text-sm"><strong className="text-blue-700">Hours Opted:</strong> <span className="text-gray-800">{formData.hoursOpted}</span></p>
               </div>
             </div>
             
-            {/* Payment Info with enhanced styling and spacing */}
-            <div className="p-5 mb-8 rounded-lg shadow-sm" style={{
+            {/* Payment Info - more compact */}
+            <div className="p-3 mb-3 rounded-lg shadow-sm" style={{
               background: "linear-gradient(90deg, hsla(221, 45%, 93%, 1) 0%, hsla(220, 78%, 95%, 1) 100%)",
               border: "1px solid #d0def0",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+              boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
             }}>
-              <h3 className="text-lg font-semibold text-blue-800 border-b border-blue-200 pb-2 mb-4">Payment Details</h3>
+              <h3 className="text-base font-semibold text-blue-800 border-b border-blue-200 pb-1 mb-2">Payment Details</h3>
               <table className="w-full">
                 <thead>
-                  <tr className="border-b-2 border-blue-200">
-                    <th className="text-left py-2 text-md text-blue-700">Description</th>
-                    <th className="text-right py-2 text-md text-blue-700">Amount</th>
+                  <tr className="border-b border-blue-200">
+                    <th className="text-left py-1 text-sm text-blue-700">Description</th>
+                    <th className="text-right py-1 text-sm text-blue-700">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="py-4 text-md" style={{ color: "#333333" }}>
+                    <td className="py-2 text-sm" style={{ color: "#333333" }}>
                       <span className="font-medium">Fees Paid for {formData.month}</span>
                     </td>
-                    <td className="text-right py-4 text-md font-medium" style={{ color: "#1a55a3" }}>₹ {formData.feesPaid}</td>
+                    <td className="text-right py-2 text-sm font-medium" style={{ color: "#1a55a3" }}>₹ {formData.feesPaid}</td>
                   </tr>
                   <tr className="border-t border-blue-100">
-                    <td className="py-4 text-md font-semibold text-blue-800">Remaining Dues</td>
-                    <td className="text-right py-4 text-md font-semibold" style={{ color: formData.remainingDues === "0" ? "#10b981" : "#ef4444" }}>
+                    <td className="py-2 text-sm font-semibold text-blue-800">Remaining Dues</td>
+                    <td className="text-right py-2 text-sm font-semibold" style={{ color: formData.remainingDues === "0" ? "#10b981" : "#ef4444" }}>
                       ₹ {formData.remainingDues}
                     </td>
                   </tr>
@@ -216,29 +216,29 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
               </table>
             </div>
             
-            {/* Signature */}
-            <div className="flex justify-end mb-6">
+            {/* Signature - more compact */}
+            <div className="flex justify-end mb-3">
               <div className="text-center">
                 <img
                   src="/lovable-uploads/07d267e5-cf72-4e86-a3e4-fc6dceda8603.png"
                   alt="Signature"
-                  className="h-16 mb-1 mx-auto"
+                  className="h-14 mb-1 mx-auto"
                 />
-                <p className="font-bold text-blue-800">SANKALP LIBRARY</p>
+                <p className="font-bold text-blue-800 text-sm">SANKALP LIBRARY</p>
               </div>
             </div>
             
-            {/* Notes - With enhanced styling */}
-            <div className="pt-3 mb-4 rounded-lg p-4" style={{
-              background: "linear-gradient(to right, #e6f2ff, #f0f8ff)",
+            {/* Notes - more compact with no gradient */}
+            <div className="pt-2 mb-3 rounded-lg p-3" style={{
+              background: "#f9fbff",
               borderTop: "1px solid #d0def0",
               borderRadius: "0 0 8px 8px"
             }}>
-              <h4 className="font-semibold text-blue-800 mb-3">Important Notes:</h4>
-              <ul className="list-disc pl-6 space-y-2">
-                <li className="text-sm text-gray-700">Keep the Receipt for future references</li>
-                <li className="text-sm text-gray-700">Fees once paid are non refundable</li>
-                <li className="text-sm text-gray-700">In case of any error contact Library desk</li>
+              <h4 className="font-semibold text-blue-800 mb-1 text-sm">Important Notes:</h4>
+              <ul className="list-disc pl-5 space-y-1">
+                <li className="text-xs text-gray-700">Keep the Receipt for future references</li>
+                <li className="text-xs text-gray-700">Fees once paid are non refundable</li>
+                <li className="text-xs text-gray-700">In case of any error contact Library desk</li>
               </ul>
             </div>
           </div>
