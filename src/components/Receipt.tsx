@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
@@ -40,7 +39,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
         logging: false,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#ffffff", // Explicitly set white background
       });
       
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
@@ -57,6 +56,10 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       const imgWidth = 210; // A4 width in mm
       const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // Add white background
+      pdf.setFillColor(255, 255, 255);
+      pdf.rect(0, 0, imgWidth, pageHeight, 'F');
       
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST');
       
@@ -79,7 +82,15 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div ref={receiptRef} className="bg-white" style={{ 
+      width: "210mm", 
+      minHeight: "297mm", 
+      margin: "0 auto", 
+      backgroundColor: "#ffffff", // Ensure white background
+      boxSizing: "border-box",
+      padding: "6mm"
+    }}>
+      <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <Button
           variant="outline"
@@ -99,7 +110,6 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
       
       <Card className="p-4 shadow-lg bg-white">
         <div
-          ref={receiptRef}
           className="relative bg-white"
           style={{ 
             width: "210mm", // A4 width
@@ -237,6 +247,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
           </div>
         </div>
       </Card>
+    </div>
     </div>
   );
 };
