@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
@@ -83,7 +84,7 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
   };
 
   return (
-    <div ref={receiptRef} className="bg-white">
+    <div ref={receiptRef} className="bg-white dark:bg-gray-900">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <Button
@@ -96,13 +97,13 @@ const Receipt = ({ formData, receiptNo, onBack }: ReceiptProps) => {
           
           <Button
             onClick={downloadReceipt}
-            className="bg-green-700 hover:bg-green-800 text-white"
+            className="bg-green-700 hover:bg-green-800 text-white dark:bg-green-800 dark:hover:bg-green-700"
           >
             <Download className="h-4 w-4 mr-2" /> Download Receipt
           </Button>
         </div>
         
-        <Card className="p-4 shadow-lg bg-white">
+        <Card className="p-4 shadow-lg bg-white dark:bg-gray-800">
           <div
             ref={receiptContentRef}
             className="relative bg-white"
